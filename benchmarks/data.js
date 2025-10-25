@@ -1,60 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1761321416328,
+  "lastUpdate": 1761391944445,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "fcf778c79d19c240da169ee0180a304502b52974",
-          "message": "Merge pull request #267 from czlonkowski/feat/integration-tests-phase-8\n\nfeat: Phase 8 Integration Tests - System Tools",
-          "timestamp": "2025-10-05T10:58:15+02:00",
-          "tree_id": "fa1e472003051fcb029051ceb7114199a9d41cea",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/fcf778c79d19c240da169ee0180a304502b52974"
-        },
-        "date": 1759654810875,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0192,
-            "range": "0.40269999999999995",
-            "unit": "ms",
-            "extra": "52178 ops/sec"
-          },
-          {
-            "name": "sample - array sorting - large",
-            "value": 3.4055,
-            "range": "0.8869000000000002",
-            "unit": "ms",
-            "extra": "294 ops/sec"
-          },
-          {
-            "name": "sample - string concatenation",
-            "value": 0.0047,
-            "range": "0.2685",
-            "unit": "ms",
-            "extra": "213544 ops/sec"
-          },
-          {
-            "name": "sample - object creation",
-            "value": 0.0681,
-            "range": "0.4305",
-            "unit": "ms",
-            "extra": "14689 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1794,6 +1742,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/9a3520adb7017529ee23d8873d86daea3d6f2957"
         },
         "date": 1761321416009,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bfff497020b2afef9445faeac4c6bf6cd0854031",
+          "message": "Merge pull request #367 from czlonkowski/claude/review-issues-011CUSqcrxxERACFeLLWjPzj\n\n…ssue #349)\n\nAddresses \"Cannot read properties of undefined (reading 'map')\" error by adding validation and fallback handling for n8n API responses.\n\nChanges:\n\nAdd response structure validation in listWorkflows, listExecutions, listCredentials, and listTags methods\nHandle edge case where API returns array directly instead of {data: [], nextCursor} wrapper object\nProvide clear error messages when response format is unexpected\nAdd logging when using fallback format handling\nThis fix ensures compatibility with different n8n API versions and prevents runtime errors when the response structure varies from expected.\n\nFixes #349\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en",
+          "timestamp": "2025-10-25T13:29:45+02:00",
+          "tree_id": "940161adbe898380beef15a0aea98155639aeac3",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/bfff497020b2afef9445faeac4c6bf6cd0854031"
+        },
+        "date": 1761391943743,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
