@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1762384946020,
+  "lastUpdate": 1762498579696,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a2cc37bdf76894551a818b465423d433a9d498ec",
-          "message": "Merge pull request #288 from czlonkowski/feat/meaningful-performance-benchmarks\n\nfeat: replace placeholder benchmarks with meaningful MCP tool performance tests",
-          "timestamp": "2025-10-08T10:43:25+02:00",
-          "tree_id": "b3b00e63a2ad3fbd5a759f5760b7e6ea54cdcfd0",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/a2cc37bdf76894551a818b465423d433a9d498ec"
-        },
-        "date": 1759913108603,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1542,6 +1511,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/1834d474a52f5d111685bdbb7750ed5f951e4361"
         },
         "date": 1762384945651,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0e0f0998af7fa8dd60fc014fbc0e99be8bc2c5ff",
+          "message": "Merge pull request #403 from czlonkowski/feat/workflow-activation-operations",
+          "timestamp": "2025-11-07T07:54:33+01:00",
+          "tree_id": "150a25e99e1083077a438e5281e6514f8ca7c2b1",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/0e0f0998af7fa8dd60fc014fbc0e99be8bc2c5ff"
+        },
+        "date": 1762498579070,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
