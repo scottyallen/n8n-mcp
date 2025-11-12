@@ -147,19 +147,19 @@ COMMENT ON COLUMN workflow_mutations.operations IS
 COMMENT ON COLUMN workflow_mutations.validation_improved IS
   'Whether the mutation reduced validation errors (NULL if validation data unavailable)';
 
--- Row-level security (optional - uncomment if using Supabase auth)
--- ALTER TABLE workflow_mutations ENABLE ROW LEVEL SECURITY;
+-- Row-level security
+ALTER TABLE workflow_mutations ENABLE ROW LEVEL SECURITY;
 
 -- Create policy for anonymous inserts (required for telemetry)
--- CREATE POLICY "Allow anonymous inserts"
---   ON workflow_mutations
---   FOR INSERT
---   TO anon
---   WITH CHECK (true);
+CREATE POLICY "Allow anonymous inserts"
+  ON workflow_mutations
+  FOR INSERT
+  TO anon
+  WITH CHECK (true);
 
 -- Create policy for authenticated reads (for analysis)
--- CREATE POLICY "Allow authenticated reads"
---   ON workflow_mutations
---   FOR SELECT
---   TO authenticated
---   USING (true);
+CREATE POLICY "Allow authenticated reads"
+  ON workflow_mutations
+  FOR SELECT
+  TO authenticated
+  USING (true);
