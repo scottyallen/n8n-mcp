@@ -4,7 +4,7 @@
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { MutationTracker } from '../../../src/telemetry/mutation-tracker';
-import { WorkflowMutationData } from '../../../src/telemetry/mutation-types';
+import { WorkflowMutationData, MutationToolName } from '../../../src/telemetry/mutation-types';
 
 describe('MutationTracker', () => {
   let tracker: MutationTracker;
@@ -18,7 +18,7 @@ describe('MutationTracker', () => {
     it('should remove credentials from workflow level', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test sanitization',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -54,7 +54,7 @@ describe('MutationTracker', () => {
     it('should remove credentials from node level', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test node credentials',
         operations: [{ type: 'addNode' }],
         workflowBefore: {
@@ -115,7 +115,7 @@ describe('MutationTracker', () => {
     it('should redact API keys in parameters', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test API key redaction',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -171,7 +171,7 @@ describe('MutationTracker', () => {
     it('should redact URLs with authentication', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test URL redaction',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -213,7 +213,7 @@ describe('MutationTracker', () => {
     it('should redact long tokens (32+ characters)', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test token redaction',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -252,7 +252,7 @@ describe('MutationTracker', () => {
     it('should redact OpenAI-style keys', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test OpenAI key redaction',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -292,7 +292,7 @@ describe('MutationTracker', () => {
     it('should redact Bearer tokens', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test Bearer token redaction',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -338,7 +338,7 @@ describe('MutationTracker', () => {
     it('should preserve workflow structure while sanitizing', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test structure preservation',
         operations: [{ type: 'addNode' }],
         workflowBefore: {
@@ -404,7 +404,7 @@ describe('MutationTracker', () => {
     it('should handle nested objects recursively', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test nested sanitization',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -457,7 +457,7 @@ describe('MutationTracker', () => {
     it('should detect and skip duplicate mutations', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'First mutation',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -488,7 +488,7 @@ describe('MutationTracker', () => {
     it('should allow mutations with different workflows', async () => {
       const data1: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'First mutation',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -537,7 +537,7 @@ describe('MutationTracker', () => {
 
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test counting',
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
@@ -558,7 +558,7 @@ describe('MutationTracker', () => {
     it('should clear recent mutations', async () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test clearing',
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },

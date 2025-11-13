@@ -4,7 +4,8 @@
 
 import { describe, it, expect, beforeEach } from 'vitest';
 import { MutationValidator } from '../../../src/telemetry/mutation-validator';
-import { WorkflowMutationData } from '../../../src/telemetry/mutation-types';
+import { WorkflowMutationData, MutationToolName } from '../../../src/telemetry/mutation-types';
+import type { UpdateNodeOperation } from '../../../src/types/workflow-diff';
 
 describe('MutationValidator', () => {
   let validator: MutationValidator;
@@ -17,7 +18,7 @@ describe('MutationValidator', () => {
     it('should accept valid workflow structure', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Valid mutation',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -44,7 +45,7 @@ describe('MutationValidator', () => {
     it('should reject workflow without nodes array', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Invalid mutation',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -70,7 +71,7 @@ describe('MutationValidator', () => {
     it('should reject workflow without connections object', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Invalid mutation',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -96,7 +97,7 @@ describe('MutationValidator', () => {
     it('should reject null workflow', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Invalid mutation',
         operations: [{ type: 'updateNode' }],
         workflowBefore: null as any,
@@ -120,7 +121,7 @@ describe('MutationValidator', () => {
     it('should accept workflows within size limit', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Size test',
         operations: [{ type: 'addNode' }],
         workflowBefore: {
@@ -156,7 +157,7 @@ describe('MutationValidator', () => {
       const largeArray = new Array(600000).fill('x').join('');
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Oversized test',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -193,7 +194,7 @@ describe('MutationValidator', () => {
 
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Custom size test',
         operations: [{ type: 'addNode' }],
         workflowBefore: {
@@ -230,7 +231,7 @@ describe('MutationValidator', () => {
     it('should warn about empty intent', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: '',
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
@@ -246,7 +247,7 @@ describe('MutationValidator', () => {
     it('should warn about very short intent', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'fix',
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
@@ -262,7 +263,7 @@ describe('MutationValidator', () => {
     it('should warn about very long intent', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'x'.repeat(1001),
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
@@ -278,7 +279,7 @@ describe('MutationValidator', () => {
     it('should accept good intent length', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Add error handling to API nodes',
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
@@ -296,7 +297,7 @@ describe('MutationValidator', () => {
     it('should reject empty operations array', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test',
         operations: [],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
@@ -313,7 +314,7 @@ describe('MutationValidator', () => {
     it('should accept operations array with items', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test',
         operations: [
           { type: 'addNode' },
@@ -335,7 +336,7 @@ describe('MutationValidator', () => {
     it('should reject negative duration', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test',
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
@@ -352,7 +353,7 @@ describe('MutationValidator', () => {
     it('should warn about very long duration', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test',
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
@@ -368,7 +369,7 @@ describe('MutationValidator', () => {
     it('should accept reasonable duration', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test',
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
@@ -402,7 +403,7 @@ describe('MutationValidator', () => {
 
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'No actual change',
         operations: [{ type: 'updateNode' }],
         workflowBefore: workflow,
@@ -418,7 +419,7 @@ describe('MutationValidator', () => {
     it('should not warn when workflows are different', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Real change',
         operations: [{ type: 'updateNode' }],
         workflowBefore: {
@@ -446,7 +447,7 @@ describe('MutationValidator', () => {
     it('should warn about invalid validation structure', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test',
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
@@ -464,12 +465,12 @@ describe('MutationValidator', () => {
     it('should accept valid validation structure', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Test',
         operations: [{ type: 'updateNode' }],
         workflowBefore: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
         workflowAfter: { id: 'wf1', name: 'Test', nodes: [], connections: {} },
-        validationBefore: { valid: false, errors: ['Error 1'] },
+        validationBefore: { valid: false, errors: [{ type: 'test_error', message: 'Error 1' }] },
         validationAfter: { valid: true, errors: [] },
         mutationSuccess: true,
         durationMs: 100
@@ -484,7 +485,7 @@ describe('MutationValidator', () => {
     it('should collect multiple errors and warnings', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: '', // Empty - warning
         operations: [], // Empty - error
         workflowBefore: null as any, // Invalid - error
@@ -502,10 +503,10 @@ describe('MutationValidator', () => {
     it('should pass validation with all criteria met', () => {
       const data: WorkflowMutationData = {
         sessionId: 'test-session-123',
-        toolName: 'n8n_update_partial_workflow',
+        toolName: MutationToolName.UPDATE_PARTIAL,
         userIntent: 'Add error handling to HTTP Request nodes',
         operations: [
-          { type: 'updateNode', nodeId: 'node1', updates: { onError: 'continueErrorOutput' } }
+          { type: 'updateNode', nodeName: 'node1', updates: { onError: 'continueErrorOutput' } } as UpdateNodeOperation
         ],
         workflowBefore: {
           id: 'wf1',
