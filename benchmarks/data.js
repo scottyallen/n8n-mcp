@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1762896649885,
+  "lastUpdate": 1763040232691,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4016ac42ef0fc6897bbd34b95f1aa5347f5dbc17",
-          "message": "Merge pull request #301 from czlonkowski/fix/fts5-search-failures\n\nfix: Add FTS5 search index to prevent 69% search failure rate (v2.18.5)",
-          "timestamp": "2025-10-10T11:46:54+02:00",
-          "tree_id": "abef39da83e4872eac411dabcd0caa8d8558fb7f",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/4016ac42ef0fc6897bbd34b95f1aa5347f5dbc17"
-        },
-        "date": 1760089711735,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1542,6 +1511,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/77151e013ee3fea15be34f009594bcde81edf8e2"
         },
         "date": 1762896649631,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "99c5907b71a6c3228d345a2f0879cd893f30cd7e",
+          "message": "feat: enhance workflow mutation telemetry for better AI responses (#419)\n\n* feat: add comprehensive telemetry for partial workflow updates\n\nImplement telemetry infrastructure to track workflow mutations from\npartial update operations. This enables data-driven improvements to\npartial update tooling by capturing:\n\n- Workflow state before and after mutations\n- User intent and operation patterns\n- Validation results and improvements\n- Change metrics (nodes/connections modified)\n- Success/failure rates and error patterns\n\nNew Components:\n- Intent classifier: Categorizes mutation patterns\n- Intent sanitizer: Removes PII from user instructions\n- Mutation validator: Ensures data quality before tracking\n- Mutation tracker: Coordinates validation and metric calculation\n\nExtended Components:\n- TelemetryManager: New trackWorkflowMutation() method\n- EventTracker: Mutation queue management\n- BatchProcessor: Mutation data flushing to Supabase\n\nMCP Tool Enhancements:\n- n8n_update_partial_workflow: Added optional 'intent' parameter\n- n8n_update_full_workflow: Added optional 'intent' parameter\n- Both tools now track mutations asynchronously\n\nDatabase Schema:\n- New workflow_mutations table with 20+ fields\n- Comprehensive indexes for efficient querying\n- Supports deduplication and data analysis\n\nThis telemetry system is:\n- Privacy-focused (PII sanitization, anonymized users)\n- Non-blocking (async tracking, silent failures)\n- Production-ready (batching, retries, circuit breaker)\n- Backward compatible (all parameters optional)\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* fix: correct SQL syntax for expression index in workflow_mutations schema\n\nThe expression index for significant changes needs double parentheses\naround the arithmetic expression to be valid PostgreSQL syntax.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* fix: enable RLS policies for workflow_mutations table\n\nEnable Row-Level Security and add policies:\n- Allow anonymous (anon) inserts for telemetry data collection\n- Allow authenticated reads for data analysis and querying\n\nThese policies are required for the telemetry system to function\ncorrectly with Supabase, as the MCP server uses the anon key to\ninsert mutation data.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* fix: reduce mutation auto-flush threshold from 5 to 2\n\nLower the auto-flush threshold for workflow mutations from 5 to 2 to ensure\nmore timely data persistence. Since mutations are less frequent than regular\ntelemetry events, a lower threshold provides:\n\n- Faster data persistence (don't wait for 5 mutations)\n- Better testing experience (easier to verify with fewer operations)\n- Reduced risk of data loss if process exits before threshold\n- More responsive telemetry for low-volume mutation scenarios\n\nThis complements the existing 5-second periodic flush and process exit\nhandlers, ensuring mutations are persisted promptly.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* fix: improve mutation telemetry error logging and diagnostics\n\nChanges:\n- Upgrade error logging from debug to warn level for better visibility\n- Add diagnostic logging to track mutation processing\n- Log telemetry disabled state explicitly\n- Add context info (sessionId, intent, operationCount) to error logs\n- Remove 'await' from telemetry calls to make them truly non-blocking\n\nThis will help identify why mutations aren't being persisted to the\nworkflow_mutations table despite successful workflow operations.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* feat: enhance workflow mutation telemetry for better AI responses\n\nImprove workflow mutation tracking to capture comprehensive data that helps provide better responses when users update workflows. This enhancement collects workflow state, user intent, and operation details to enable more context-aware assistance.\n\nKey improvements:\n- Reduce auto-flush threshold from 5 to 2 for more reliable mutation tracking\n- Add comprehensive workflow and credential sanitization to mutation tracker\n- Document intent parameter in workflow update tools for better UX\n- Fix mutation queue handling in telemetry manager (flush now handles 3 queues)\n- Add extensive unit tests for mutation tracking and validation (35 new tests)\n\nTechnical changes:\n- mutation-tracker.ts: Multi-layer sanitization (workflow, node, parameter levels)\n- batch-processor.ts: Support mutation data flushing to Supabase\n- telemetry-manager.ts: Auto-flush mutations at threshold 2, track mutations queue\n- handlers-workflow-diff.ts: Track workflow mutations with sanitized data\n- Tests: 13 tests for mutation-tracker, 22 tests for mutation-validator\n\nThe intent parameter messaging emphasizes user benefit (\"helps to return better response\") rather than technical implementation details.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* chore: bump version to 2.22.16 with telemetry changelog\n\nUpdated package.json and package.runtime.json to version 2.22.16.\nAdded comprehensive CHANGELOG entry documenting workflow mutation\ntelemetry enhancements for better AI-powered workflow assistance.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* fix: resolve TypeScript lint errors in telemetry tests\n\nFixed type issues in mutation-tracker and mutation-validator tests:\n- Import and use MutationToolName enum instead of string literals\n- Fix ValidationResult.errors to use proper object structure\n- Add UpdateNodeOperation type assertion for operation with nodeName\n\nAll TypeScript errors resolved, lint now passes.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
+          "timestamp": "2025-11-13T14:21:51+01:00",
+          "tree_id": "d0347d8622a8e263f3a11f66ce4df4416c1b9e70",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/99c5907b71a6c3228d345a2f0879cd893f30cd7e"
+        },
+        "date": 1763040232425,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
