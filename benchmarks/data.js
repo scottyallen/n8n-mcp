@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1763068524647,
+  "lastUpdate": 1763125192048,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "dc62fd66cbc58a518b2a5a3ace3902b0f87fdaa4",
-          "message": "Merge pull request #307 from czlonkowski/security/command-injection-fix-part2\n\nsecurity: improve path validation and git command safety",
-          "timestamp": "2025-10-11T17:14:00+02:00",
-          "tree_id": "7f95ffcfc68f715b1e1acabe68fc9fa38c00a4c5",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/dc62fd66cbc58a518b2a5a3ace3902b0f87fdaa4"
-        },
-        "date": 1760195750679,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1542,6 +1511,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/597bd290b69459c3b84bbd7cffc5e51c4aa0f28b"
         },
         "date": 1763068523930,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1bbfaabbc20f4989d81bc8a2cfc9f16795134ed8",
+          "message": "fix: add structural hash tracking for workflow mutations (#422)\n\n* feat: add structural hashes and success tracking for workflow mutations\n\nEnables cross-referencing workflow_mutations with telemetry_workflows by adding structural hashes (nodeTypes + connections) alongside existing full hashes.\n\n**Database Changes:**\n- Added workflow_structure_hash_before/after columns\n- Added is_truly_successful computed column\n- Created 3 analytics views: successful_mutations, mutation_training_data, mutations_with_workflow_quality\n- Created 2 helper functions: get_mutation_success_rate_by_intent(), get_mutation_crossref_stats()\n\n**Code Changes:**\n- Updated mutation-tracker.ts to generate both hash types\n- Updated mutation-types.ts with new fields\n- Auto-converts to snake_case via existing toSnakeCase() function\n\n**Testing:**\n- Added 5 new unit tests for structural hash generation\n- All 17 tests passing\n\n**Tooling:**\n- Created backfill script to populate hashes for existing 1,499 mutations\n- Created comprehensive documentation (STRUCTURAL_HASHES.md)\n\n**Impact:**\n- Before: 0% cross-reference match rate\n- After: Expected 60-70% match rate (post-backfill)\n- Unlocks quality impact analysis, training data curation, and mutation pattern insights\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n* fix: correct test operation types for structural hash tests\n\nFixed TypeScript errors in mutation-tracker tests by adding required\n'updates' parameter to updateNode operations. Used 'as any' for test\noperations to maintain backward compatibility while tests are updated.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* chore: remove documentation files from tracking\n\nRemoved internal documentation files from version control:\n- Telemetry implementation docs\n- Implementation roadmap\n- Disabled tools analysis docs\n\nThese files are for internal reference only.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* chore: remove telemetry documentation files from tracking\n\nRemoved all telemetry analysis and documentation files from root directory.\nThese files are for internal reference only and should not be in version control.\n\nFiles removed:\n- TELEMETRY_ANALYSIS*.md\n- TELEMETRY_MUTATION_SPEC.md\n- TELEMETRY_*_DATASET.md\n- VALIDATION_ANALYSIS*.md\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* chore: bump version to 2.22.18 and update CHANGELOG\n\nVersion 2.22.18 adds structural hash tracking for workflow mutations,\nenabling cross-referencing with workflow quality data and automated\nsuccess detection.\n\nKey changes:\n- Added workflowStructureHashBefore/After fields\n- Added isTrulySuccessful computed field\n- Enhanced mutation tracking with structural hashes\n- All tests passing (17/17)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* chore: remove migration and documentation files from PR\n\nRemoved internal database migration files and documentation from\nversion control:\n- docs/migrations/\n- docs/telemetry/\n\nUpdated CHANGELOG to remove database migration references.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en",
+          "timestamp": "2025-11-14T13:57:54+01:00",
+          "tree_id": "7e4b59726deadbda59817c8cc790bc76dc07fdc0",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/1bbfaabbc20f4989d81bc8a2cfc9f16795134ed8"
+        },
+        "date": 1763125191377,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
