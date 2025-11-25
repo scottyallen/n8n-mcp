@@ -1940,7 +1940,7 @@ export async function handleDiagnostic(request: any, context?: InstanceContext):
           '   N8N_API_KEY=your_api_key_here',
           '3. Restart the MCP server',
           '4. Run n8n_health_check with mode="diagnostic" to verify',
-          '5. All 31 tools will be available!'
+          '5. All 19 tools will be available!'
         ],
         documentation: 'https://github.com/czlonkowski/n8n-mcp?tab=readme-ov-file#n8n-management-tools-optional---requires-api-configuration'
       }
