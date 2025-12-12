@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1765542756082,
+  "lastUpdate": 1765543862960,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "b18f6ec7a425aa60a4dd35957c69a29bb338a641",
-          "message": "Merge pull request #364 from czlonkowski/fix/if-node-connection-separation\n\nfix: add warnings for If/Switch node connection parameters (issue #360)",
-          "timestamp": "2025-10-24T15:06:58+02:00",
-          "tree_id": "cccebf3d1bc7262fdf0602056613af80eeb1175a",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/b18f6ec7a425aa60a4dd35957c69a29bb338a641"
-        },
-        "date": 1761311340815,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1538,6 +1507,35 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/fa7d0b420ec6be9688f83d148c39ed9912ff8adc"
         },
         "date": 1765542755830,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "romualdczlonkowski@MacBook-Pro-Romuald.local",
+            "name": "Romuald Członkowski"
+          },
+          "committer": {
+            "email": "romualdczlonkowski@MacBook-Pro-Romuald.local",
+            "name": "Romuald Członkowski"
+          },
+          "distinct": true,
+          "id": "6e85c68d6259eb78b256f5ac4559ba3e665e0886",
+          "message": "chore: bump version to 2.29.3 to trigger OIDC publish\n\nThe previous workflow re-run used cached old workflow code with\nNPM_TOKEN. This version bump triggers a fresh workflow run with\nthe new OIDC Trusted Publishing configuration.\n\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>",
+          "timestamp": "2025-12-12T13:48:11+01:00",
+          "tree_id": "75e0a58025fd75c9285d68d7eca4cbc5f0ebb877",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/6e85c68d6259eb78b256f5ac4559ba3e665e0886"
+        },
+        "date": 1765543862564,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
