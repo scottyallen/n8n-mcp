@@ -83,6 +83,46 @@ class ConfigValidator {
         }
         return { visible, hidden };
     }
+    static evaluateCondition(condition, configValue) {
+        const cnd = condition._cnd;
+        if ('eq' in cnd)
+            return configValue === cnd.eq;
+        if ('not' in cnd)
+            return configValue !== cnd.not;
+        if ('gte' in cnd)
+            return configValue >= cnd.gte;
+        if ('lte' in cnd)
+            return configValue <= cnd.lte;
+        if ('gt' in cnd)
+            return configValue > cnd.gt;
+        if ('lt' in cnd)
+            return configValue < cnd.lt;
+        if ('between' in cnd) {
+            return configValue >= cnd.between.from && configValue <= cnd.between.to;
+        }
+        if ('startsWith' in cnd) {
+            return typeof configValue === 'string' && configValue.startsWith(cnd.startsWith);
+        }
+        if ('endsWith' in cnd) {
+            return typeof configValue === 'string' && configValue.endsWith(cnd.endsWith);
+        }
+        if ('includes' in cnd) {
+            return typeof configValue === 'string' && configValue.includes(cnd.includes);
+        }
+        if ('regex' in cnd) {
+            return typeof configValue === 'string' && new RegExp(cnd.regex).test(configValue);
+        }
+        if ('exists' in cnd) {
+            return configValue !== undefined && configValue !== null;
+        }
+        return false;
+    }
+    static valueMatches(expectedValue, configValue) {
+        if (expectedValue && typeof expectedValue === 'object' && '_cnd' in expectedValue) {
+            return this.evaluateCondition(expectedValue, configValue);
+        }
+        return configValue === expectedValue;
+    }
     static isPropertyVisible(prop, config) {
         if (!prop.displayOptions)
             return true;
@@ -90,7 +130,8 @@ class ConfigValidator {
             for (const [key, values] of Object.entries(prop.displayOptions.show)) {
                 const configValue = config[key];
                 const expectedValues = Array.isArray(values) ? values : [values];
-                if (!expectedValues.includes(configValue)) {
+                const anyMatch = expectedValues.some(expected => this.valueMatches(expected, configValue));
+                if (!anyMatch) {
                     return false;
                 }
             }
@@ -99,7 +140,8 @@ class ConfigValidator {
             for (const [key, values] of Object.entries(prop.displayOptions.hide)) {
                 const configValue = config[key];
                 const expectedValues = Array.isArray(values) ? values : [values];
-                if (expectedValues.includes(configValue)) {
+                const anyMatch = expectedValues.some(expected => this.valueMatches(expected, configValue));
+                if (anyMatch) {
                     return false;
                 }
             }
