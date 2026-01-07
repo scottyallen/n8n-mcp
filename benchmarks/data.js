@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1767789848867,
+  "lastUpdate": 1767805908410,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "2010d77ed85d10979895d38045326c7ee2994d0b",
-          "message": "Merge pull request #407 from czlonkowski/feat/telemetry-quick-wins-validation-errors\n\nfeat: Telemetry-driven quick wins to reduce AI agent validation errors by 30-40%",
-          "timestamp": "2025-11-08T19:09:27+01:00",
-          "tree_id": "7834dc2d3600674efa5251b04885077c5f306175",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/2010d77ed85d10979895d38045326c7ee2994d0b"
-        },
-        "date": 1762625470818,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1530,6 +1499,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/861005eeedf880be2489bc197b85a385735c0356"
         },
         "date": 1767789848408,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ce2c94c1a5ca64f82fb5b011d7739bdfd0711c66",
+          "message": "fix: recognize dynamic AI Tool nodes in validator (Issue #522) (#526)\n\nWhen n8n connects any node to an AI Agent's tool slot, it creates a\ndynamic Tool variant at runtime (e.g., googleDrive → googleDriveTool).\nThese don't exist in npm packages, causing false \"unknown node type\"\nerrors.\n\nAdded validation-time inference: when a *Tool node type is not found,\ncheck if the base node exists. If yes, treat as valid with warning.\n\nChanges:\n- workflow-validator.ts: Add INFERRED_TOOL_VARIANT logic\n- node-similarity-service.ts: Add 98% confidence for valid Tool variants\n- Added 7 unit tests for inferred tool variant functionality\n\nFixes #522\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-authored-by: Romuald Członkowski <romualdczlonkowski@MacBook-Pro-Romuald.local>\nCo-authored-by: Claude Opus 4.5 <noreply@anthropic.com>",
+          "timestamp": "2026-01-07T18:09:55+01:00",
+          "tree_id": "6b568155d3d2e1333dba098ad082367114a4634f",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/ce2c94c1a5ca64f82fb5b011d7739bdfd0711c66"
+        },
+        "date": 1767805907935,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
