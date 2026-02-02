@@ -54,15 +54,15 @@ export const handlers: RequestHandler[] = [
 
   http.get('*/api/v1/workflows/:id', ({ params }) => {
     const workflow = mockWorkflows.find(w => w.id === params.id);
-    
+
     if (!workflow) {
       return HttpResponse.json(
         { message: 'Workflow not found', code: 'NOT_FOUND' },
         { status: 404 }
       );
     }
-    
-    return HttpResponse.json({ data: workflow });
+
+    return HttpResponse.json(workflow);
   }),
 
   http.post('*/api/v1/workflows', async ({ request }) => {
@@ -96,10 +96,10 @@ export const handlers: RequestHandler[] = [
       updatedAt: new Date().toISOString(),
       versionId: '1'
     };
-    
+
     mockWorkflows.push(newWorkflow);
-    
-    return HttpResponse.json({ data: newWorkflow }, { status: 201 });
+
+    return HttpResponse.json(newWorkflow, { status: 201 });
   }),
 
   http.patch('*/api/v1/workflows/:id', async ({ params, request }) => {
@@ -120,10 +120,10 @@ export const handlers: RequestHandler[] = [
       updatedAt: new Date().toISOString(),
       versionId: String(parseInt(mockWorkflows[workflowIndex].versionId) + 1)
     };
-    
+
     mockWorkflows[workflowIndex] = updatedWorkflow;
-    
-    return HttpResponse.json({ data: updatedWorkflow });
+
+    return HttpResponse.json(updatedWorkflow);
   }),
 
   http.delete('*/api/v1/workflows/:id', ({ params }) => {
@@ -176,15 +176,15 @@ export const handlers: RequestHandler[] = [
 
   http.get('*/api/v1/executions/:id', ({ params }) => {
     const execution = mockExecutions.find(e => e.id === params.id);
-    
+
     if (!execution) {
       return HttpResponse.json(
         { message: 'Execution not found', code: 'NOT_FOUND' },
         { status: 404 }
       );
     }
-    
-    return HttpResponse.json({ data: execution });
+
+    return HttpResponse.json(execution);
   }),
 
   http.delete('*/api/v1/executions/:id', ({ params }) => {
