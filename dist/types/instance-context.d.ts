@@ -3,6 +3,8 @@ export interface InstanceContext {
     n8nApiKey?: string;
     n8nApiTimeout?: number;
     n8nApiMaxRetries?: number;
+    cfAccessClientId?: string;
+    cfAccessClientSecret?: string;
     instanceId?: string;
     sessionId?: string;
     metadata?: Record<string, any>;

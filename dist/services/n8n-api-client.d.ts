@@ -4,6 +4,8 @@ export interface N8nApiClientConfig {
     apiKey: string;
     timeout?: number;
     maxRetries?: number;
+    cfAccessClientId?: string;
+    cfAccessClientSecret?: string;
 }
 export declare class N8nApiClient {
     private client;

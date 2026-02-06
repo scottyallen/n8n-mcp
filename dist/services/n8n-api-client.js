@@ -46,19 +46,25 @@ class N8nApiClient {
     constructor(config) {
         this.versionInfo = null;
         this.versionPromise = null;
-        const { baseUrl, apiKey, timeout = 30000, maxRetries = 3 } = config;
+        const { baseUrl, apiKey, timeout = 30000, maxRetries = 3, cfAccessClientId, cfAccessClientSecret } = config;
         this.maxRetries = maxRetries;
         this.baseUrl = baseUrl;
         const apiUrl = baseUrl.endsWith('/api/v1')
             ? baseUrl
             : `${baseUrl.replace(/\/$/, '')}/api/v1`;
+        const headers = {
+            'X-N8N-API-KEY': apiKey,
+            'Content-Type': 'application/json',
+        };
+        if (cfAccessClientId && cfAccessClientSecret) {
+            headers['CF-Access-Client-Id'] = cfAccessClientId;
+            headers['CF-Access-Client-Secret'] = cfAccessClientSecret;
+            logger_1.logger.debug('Cloudflare Access service token configured');
+        }
         this.client = axios_1.default.create({
             baseURL: apiUrl,
             timeout,
-            headers: {
-                'X-N8N-API-KEY': apiKey,
-                'Content-Type': 'application/json',
-            },
+            headers,
         });
         this.client.interceptors.request.use((config) => {
             logger_1.logger.debug(`n8n API Request: ${config.method?.toUpperCase()} ${config.url}`, {

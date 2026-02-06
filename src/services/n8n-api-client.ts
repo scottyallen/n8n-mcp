@@ -36,6 +36,8 @@ export interface N8nApiClientConfig {
   apiKey: string;
   timeout?: number;
   maxRetries?: number;
+  cfAccessClientId?: string;
+  cfAccessClientSecret?: string;
 }
 
 export class N8nApiClient {
@@ -46,7 +48,7 @@ export class N8nApiClient {
   private versionPromise: Promise<N8nVersionInfo | null> | null = null;
 
   constructor(config: N8nApiClientConfig) {
-    const { baseUrl, apiKey, timeout = 30000, maxRetries = 3 } = config;
+    const { baseUrl, apiKey, timeout = 30000, maxRetries = 3, cfAccessClientId, cfAccessClientSecret } = config;
 
     this.maxRetries = maxRetries;
     this.baseUrl = baseUrl;
@@ -56,13 +58,23 @@ export class N8nApiClient {
       ? baseUrl
       : `${baseUrl.replace(/\/$/, '')}/api/v1`;
 
+    // Build headers object, including Cloudflare Access headers if provided
+    const headers: Record<string, string> = {
+      'X-N8N-API-KEY': apiKey,
+      'Content-Type': 'application/json',
+    };
+
+    // Add Cloudflare Access service token headers if configured
+    if (cfAccessClientId && cfAccessClientSecret) {
+      headers['CF-Access-Client-Id'] = cfAccessClientId;
+      headers['CF-Access-Client-Secret'] = cfAccessClientSecret;
+      logger.debug('Cloudflare Access service token configured');
+    }
+
     this.client = axios.create({
       baseURL: apiUrl,
       timeout,
-      headers: {
-        'X-N8N-API-KEY': apiKey,
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
 
     // Request interceptor for logging

@@ -17,6 +17,13 @@ export interface InstanceContext {
   n8nApiMaxRetries?: number;
 
   /**
+   * Cloudflare Access service token authentication
+   * Required when n8n instance is protected by Cloudflare Access
+   */
+  cfAccessClientId?: string;
+  cfAccessClientSecret?: string;
+
+  /**
    * Instance identification
    * Used for session management and logging
    */
