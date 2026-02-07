@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1770439366834,
+  "lastUpdate": 1770474081076,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c974947c84f939475ad0a37c8ca3dfb998921550",
-          "message": "chore: update n8n to 1.121.2 (#441)\n\n* chore: update n8n to 1.121.2 and bump version to 2.26.1\n\n- Updated n8n from 1.120.3 to 1.121.2\n- Updated n8n-core from 1.119.2 to 1.120.1\n- Updated n8n-workflow from 1.117.0 to 1.118.1\n- Updated @n8n/n8n-nodes-langchain from 1.119.1 to 1.120.1\n- Rebuilt node database with 545 nodes (439 from n8n-nodes-base, 106 from @n8n/n8n-nodes-langchain)\n- Updated README badge with new n8n version\n- Updated CHANGELOG with dependency changes\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* chore: expand template database to 2,768 templates\n\n- Added 170 new workflow templates from n8n.io\n- Sanitized 27 templates containing API tokens\n- Updated CHANGELOG with template expansion info\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
-          "timestamp": "2025-11-25T19:21:26+01:00",
-          "tree_id": "b78a49195d5f03e525c29f33b86a92a70a63bf9a",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/c974947c84f939475ad0a37c8ca3dfb998921550"
-        },
-        "date": 1764095014574,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1530,6 +1499,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/1b328d8168608905ae0f4efd654d79c22d718507"
         },
         "date": 1770439366282,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "38aa70261ae9a012d9bb157deffcc2a0e9046d08",
+          "message": "fix: use text/html;profile=mcp-app MIME type for MCP Apps resources (#577)\n\nThe ext-apps spec requires RESOURCE_MIME_TYPE (text/html;profile=mcp-app)\nfor hosts to recognize resources as MCP Apps. Without the profile parameter,\nClaude Desktop/web fails with \"Failed to load MCP App: the resource may\nexceed the 5 MB size limit.\"\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\nCo-authored-by: Claude Opus 4.6 <noreply@anthropic.com>",
+          "timestamp": "2026-02-07T15:18:50+01:00",
+          "tree_id": "c5dce9274e01c012b23f1f83d7896067c7b62302",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/38aa70261ae9a012d9bb157deffcc2a0e9046d08"
+        },
+        "date": 1770474080779,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
