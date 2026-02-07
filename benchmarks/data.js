@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1770434048147,
+  "lastUpdate": 1770437934995,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "05424f66af655c36deeb78e0cfceb5cbc9a9fd7f",
-          "message": "feat: Session Persistence API for Zero-Downtime Deployments (v2.24.1) (#438)\n\n* feat: Add session persistence API for zero-downtime deployments (v2.24.1)\n\nImplements export/restore functionality for MCP sessions to support container\nrestarts without losing user sessions. This enables zero-downtime deployments\nfor multi-tenant platforms and Kubernetes/Docker environments.\n\nNew Features:\n- exportSessionState() - Export active sessions to JSON\n- restoreSessionState() - Restore sessions from exported data\n- SessionState type - Serializable session structure\n- Comprehensive test suite (22 tests, 100% passing)\n\nImplementation Details:\n- Only exports sessions with valid n8nApiUrl and n8nApiKey\n- Automatically filters expired sessions (respects sessionTimeout)\n- Validates context structure using existing validation\n- Handles null/invalid sessions gracefully with warnings\n- Enforces MAX_SESSIONS limit during restore (100 sessions)\n- Dormant sessions recreate transport/server on first request\n\nFiles Modified:\n- src/http-server-single-session.ts: Core export/restore logic\n- src/mcp-engine.ts: Public API wrapper methods\n- src/types/session-state.ts: Type definitions\n- tests/: Comprehensive unit tests\n\nSecurity Note:\nSession data contains plaintext n8n API keys. Downstream applications\nMUST encrypt session data before persisting to disk.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n* feat: implement 7 critical session persistence API fixes for production readiness\n\nThis commit implements all 7 critical fixes identified in the code review\nto make the session persistence API production-ready for zero-downtime\ncontainer deployments in multi-tenant environments.\n\nFixes implemented:\n1. Made instanceId optional in SessionState interface\n2. Removed redundant validation, properly using validateInstanceContext()\n3. Fixed race condition in MAX_SESSIONS check using real-time count\n4. Added comprehensive security logging with logSecurityEvent() helper\n5. Added duplicate session ID detection during export with Set tracking\n6. Added date parsing validation with isNaN checks for Invalid Date objects\n7. Restructured null checks for proper TypeScript type narrowing\n\nChanges:\n- src/types/session-state.ts: Made instanceId optional\n- src/http-server-single-session.ts: Implemented all validation and security fixes\n- tests/unit/http-server/session-persistence.test.ts: Fixed MAX_SESSIONS test\n\nAll 13 session persistence unit tests passing.\nAll 9 MCP engine session persistence tests passing.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
-          "timestamp": "2025-11-24T18:53:26+01:00",
-          "tree_id": "d6d24a33a7a1e3bc94294f00557b9f8bc2dd6d70",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/05424f66af655c36deeb78e0cfceb5cbc9a9fd7f"
-        },
-        "date": 1764006913151,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1530,6 +1499,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/1f45cc6dcc416c5ae6c6079160fa44f766f6ea71"
         },
         "date": 1770434047883,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "23b90d01a66de1f01274744a637a9496578cde67",
+          "message": "fix: align MCP Apps with official ext-apps spec (#574)\n\n* feat: add MCP Apps with rich HTML UIs for tool results\n\nAdd MCP Apps infrastructure that allows MCP hosts like Claude Desktop\nto render rich HTML UIs alongside tool results via `_meta.ui` and the\nMCP resources protocol.\n\n- Server-side UI module (src/mcp/ui/) with UIAppRegistry, tool-to-UI\n  mapping, and _meta.ui injection into tool responses\n- React + Vite build pipeline (ui-apps/) producing self-contained HTML\n  per app using vite-plugin-singlefile\n- Operation Result UI for workflow CRUD tools (create, update, delete,\n  test, autofix, deploy)\n- Validation Summary UI for validation tools (validate_node,\n  validate_workflow, n8n_validate_workflow)\n- Shared component library (Card, Badge, Expandable) with n8n dark theme\n- MCP resources protocol support (ListResources, ReadResource handlers)\n- Graceful degradation when ui-apps/dist/ is not built\n- 22 unit tests across 3 test files\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n* test: improve MCP Apps test coverage and add security hardening\n\n- Expand test suite from 22 to 57 tests across 3 test files\n- Add UIAppRegistry.reset() for proper test isolation between tests\n- Replace some fs mocks with real temp directory tests in registry\n- Add edge case coverage: empty strings, pre-load state, double load,\n  malformed URIs, duplicate tool patterns, empty HTML files\n- Add regression tests for specific tool-to-UI mappings\n- Add URI format consistency validation across all configs\n- Improve _meta.ui injection tests with structuredContent coexistence\n- Coverage: statements 79.4% -> 80%, lines 79.4% -> 80%\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n* fix: align MCP Apps with official ext-apps spec\n\nUpdate URI scheme from n8n-mcp://ui/ to ui://n8n-mcp/ per MCP spec.\nMove _meta.ui.resourceUri to tool definitions (tools/list) instead of\ntool call responses. Rewrite UI apps hook to use @modelcontextprotocol/ext-apps\nApp class instead of window.__MCP_DATA__.\n\nConceived by Romuald Czlonkowski - https://www.aiadvisors.pl/en\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 4.6 <noreply@anthropic.com>",
+          "timestamp": "2026-02-07T05:16:15+01:00",
+          "tree_id": "77cc15caa738e0d0af6b48a021377132174db7c5",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/23b90d01a66de1f01274744a637a9496578cde67"
+        },
+        "date": 1770437934544,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
