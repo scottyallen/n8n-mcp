@@ -14,6 +14,8 @@ exports.getCachedVersion = getCachedVersion;
 exports.setCachedVersion = setCachedVersion;
 exports.cleanSettingsForVersion = cleanSettingsForVersion;
 const axios_1 = __importDefault(require("axios"));
+const https_1 = __importDefault(require("https"));
+const http_1 = __importDefault(require("http"));
 const logger_1 = require("../utils/logger");
 const VERSION_CACHE_TTL_MS = 5 * 60 * 1000;
 const versionCache = new Map();
@@ -83,6 +85,8 @@ async function fetchN8nVersion(baseUrl) {
         const response = await axios_1.default.get(settingsUrl, {
             timeout: 5000,
             validateStatus: (status) => status < 500,
+            httpAgent: new http_1.default.Agent({ family: 4 }),
+            httpsAgent: new https_1.default.Agent({ family: 4 }),
         });
         if (response.status === 200 && response.data) {
             const settings = response.data.data;

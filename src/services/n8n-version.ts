@@ -17,6 +17,8 @@
  */
 
 import axios from 'axios';
+import https from 'https';
+import http from 'http';
 import { logger } from '../utils/logger';
 import { N8nVersionInfo, N8nSettingsResponse } from '../types/n8n-api';
 
@@ -137,6 +139,8 @@ export async function fetchN8nVersion(baseUrl: string): Promise<N8nVersionInfo |
     const response = await axios.get<N8nSettingsResponse>(settingsUrl, {
       timeout: 5000,
       validateStatus: (status: number) => status < 500,
+      httpAgent: new http.Agent({ family: 4 }),
+      httpsAgent: new https.Agent({ family: 4 }),
     });
 
     if (response.status === 200 && response.data) {

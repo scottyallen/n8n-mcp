@@ -1,4 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
+import https from 'https';
+import http from 'http';
 import { logger } from '../utils/logger';
 import {
   Workflow,
@@ -71,10 +73,16 @@ export class N8nApiClient {
       logger.debug('Cloudflare Access service token configured');
     }
 
+    // Force IPv4 to avoid Node.js happy eyeballs timeout on IPv6-unsupported networks
+    const httpAgent = new http.Agent({ family: 4 });
+    const httpsAgent = new https.Agent({ family: 4 });
+
     this.client = axios.create({
       baseURL: apiUrl,
       timeout,
       headers,
+      httpAgent,
+      httpsAgent,
     });
 
     // Request interceptor for logging
@@ -161,7 +169,9 @@ export class N8nApiClient {
 
       const response = await axios.get(healthzUrl, {
         timeout: 5000,
-        validateStatus: (status) => status < 500
+        validateStatus: (status) => status < 500,
+        httpAgent: new http.Agent({ family: 4 }),
+        httpsAgent: new https.Agent({ family: 4 }),
       });
 
       // Also fetch version info (will be cached)

@@ -38,6 +38,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.N8nApiClient = void 0;
 const axios_1 = __importDefault(require("axios"));
+const https_1 = __importDefault(require("https"));
+const http_1 = __importDefault(require("http"));
 const logger_1 = require("../utils/logger");
 const n8n_errors_1 = require("../utils/n8n-errors");
 const n8n_validation_1 = require("./n8n-validation");
@@ -61,10 +63,14 @@ class N8nApiClient {
             headers['CF-Access-Client-Secret'] = cfAccessClientSecret;
             logger_1.logger.debug('Cloudflare Access service token configured');
         }
+        const httpAgent = new http_1.default.Agent({ family: 4 });
+        const httpsAgent = new https_1.default.Agent({ family: 4 });
         this.client = axios_1.default.create({
             baseURL: apiUrl,
             timeout,
             headers,
+            httpAgent,
+            httpsAgent,
         });
         this.client.interceptors.request.use((config) => {
             logger_1.logger.debug(`n8n API Request: ${config.method?.toUpperCase()} ${config.url}`, {
@@ -117,7 +123,9 @@ class N8nApiClient {
             const healthzUrl = baseUrl.replace(/\/api\/v\d+\/?$/, '') + '/healthz';
             const response = await axios_1.default.get(healthzUrl, {
                 timeout: 5000,
-                validateStatus: (status) => status < 500
+                validateStatus: (status) => status < 500,
+                httpAgent: new http_1.default.Agent({ family: 4 }),
+                httpsAgent: new https_1.default.Agent({ family: 4 }),
             });
             const versionInfo = await this.getVersion();
             if (response.status === 200 && response.data?.status === 'ok') {
