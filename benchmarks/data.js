@@ -1,39 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1770513111277,
+  "lastUpdate": 1770517546241,
   "repoUrl": "https://github.com/czlonkowski/n8n-mcp",
   "entries": {
     "n8n-mcp Benchmarks": [
-      {
-        "commit": {
-          "author": {
-            "email": "56956555+czlonkowski@users.noreply.github.com",
-            "name": "Romuald Członkowski",
-            "username": "czlonkowski"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "bac4936c6d4b1c5675a893f18ba3ffcd2e58dc08",
-          "message": "fix: add n8n 1.121 availableInMCP and callerPolicy settings support (v2.26.4) (#445)\n\n* fix: add n8n 1.121 availableInMCP and callerPolicy settings support (v2.26.4)\n\nn8n 1.121 introduced a new workflow setting `availableInMCP` (boolean)\nthat controls whether a workflow is \"Available in MCP\". The sanitization\nwhitelist was missing this field, causing it to be silently stripped\nduring workflow updates.\n\nChanges:\n- Added `availableInMCP` to Zod schema in workflowSettingsSchema\n- Added `availableInMCP` and `callerPolicy` to safeSettingsProperties whitelist\n- Both settings are now preserved during workflow updates\n- Settings can be toggled via updateSettings operation\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nConceived by Romuald Członkowski - www.aiadvisors.pl/en\n\n* test: update tests for callerPolicy and availableInMCP whitelist changes\n\nUpdated 5 tests in n8n-validation.test.ts that expected callerPolicy\nto be filtered out. Since callerPolicy and availableInMCP are now\nwhitelisted (n8n 1.121+), the tests now verify these settings are\npreserved during workflow updates.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
-          "timestamp": "2025-11-26T20:17:34+01:00",
-          "tree_id": "212b8cc8337c320b7564f184f2f686f1fd60557a",
-          "url": "https://github.com/czlonkowski/n8n-mcp/commit/bac4936c6d4b1c5675a893f18ba3ffcd2e58dc08"
-        },
-        "date": 1764184761981,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "sample - array sorting - small",
-            "value": 0.0136,
-            "range": "0.3096",
-            "unit": "ms",
-            "extra": "73341 ops/sec"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -1530,6 +1499,37 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/czlonkowski/n8n-mcp/commit/020bc3d43dd4bf4660eea0e27e9fc592ef0fb0c0"
         },
         "date": 1770513110599,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "sample - array sorting - small",
+            "value": 0.0136,
+            "range": "0.3096",
+            "unit": "ms",
+            "extra": "73341 ops/sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "56956555+czlonkowski@users.noreply.github.com",
+            "name": "Romuald Członkowski",
+            "username": "czlonkowski"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c6015817146aa62981e129227bf9e72e40e27b1a",
+          "message": "Fix/mcp app blank UI (#580)\n\n* fix: use official ext-apps useApp hook to fix blank MCP App rendering\n\nThe custom useToolData hook had lifecycle issues that prevented the UI\nfrom rendering in Claude Desktop/web: no appInfo in App constructor,\nunhandled connect() Promise, app.close() on unmount conflicting with\nReact Strict Mode. Switched to the official useApp hook from\n@modelcontextprotocol/ext-apps/react which handles initialization\nhandshake, handler registration, and cleanup correctly.\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n* fix: align MCP App UI types with actual server response format\n\n- useToolData hook now uses official useApp from ext-apps/react\n- OperationResultData uses success:boolean + data.id/name (matching\n  McpToolResponse from handlers-n8n-manager.ts)\n- ValidationSummaryData handles both direct results (validate_node,\n  validate_workflow) and wrapped results (n8n_validate_workflow)\n- Added visible error/connection states for debugging\n\nConceived by Romuald Członkowski - https://www.aiadvisors.pl/en\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n* chore: bump version to 2.34.5 for npm publish\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 4.6 <noreply@anthropic.com>",
+          "timestamp": "2026-02-08T03:23:16+01:00",
+          "tree_id": "950b563396eb2b1935e379dbd5b19b234d73f76a",
+          "url": "https://github.com/czlonkowski/n8n-mcp/commit/c6015817146aa62981e129227bf9e72e40e27b1a"
+        },
+        "date": 1770517545456,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
